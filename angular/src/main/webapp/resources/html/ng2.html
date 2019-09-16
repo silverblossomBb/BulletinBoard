@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.min.js"></script>
+	<script>
+		angular.module('app', ['ngRoute'])
+			   .config(['$routeProvider', '$compileProvider', function($routeProvider) {
+				   $routeProvider.when("/a/:param", {template: "<h1>Aa</h1>", controller: "ctrl1"})
+				   				 .when("/b", {template: "<h1>Bb</h1>", controller: "ctrl2"})
+				   				 .when("/c/:param", {template: function(params) {
+				   					 								var html = "";
+				   					 								var data = {"a":"A", "b":"B", "c":"C"}
+				   					 								html = "<h1>" + data[params.param] + "</h1>";
+				   					 								return html;
+				   					 						   }, controller: "ctrl3"})
+				   				 .otherwise({redirectTo: "/b"});
+			   }])
+		       .controller('ctrl1', function($scope, $routeParams){
+		    	   console.log("ctrl1", $routeParams, $routeParams.param);
+			   })
+			   .controller('ctrl2', function($scope){
+				   console.log("ctrl2");
+			   })
+			   .controller('ctrl3', function($scope){bbb
+				   console.log("ctrl3");
+			   })
+			   .directive("aBcD", function($compile) {
+				   // Name // JS (aBcD) HTML (a-bc-d)
+				   
+				   var linked = function(scope, element, atttrs) {
+					   scope.$watch("data", function() {
+						   var html = "";
+						   html = "<h1>{{data.input}}</h1><h2 data-ng-show='data.check'>{{data.check}}</h2>"
+						   element.html(html);
+						   $compile(element.contents())(scope);
+					   })
+				   }
+				   
+				   return {
+					   restrict: "A",
+					   link: linked
+					   /* template: "<h1>집에 가고싶다 :D</h1>" */
+				   };
+			   })
+			   
+	</script>
+</head>
+<body data-ng-app="app">
+	<div data-ng-view></div>
+	<input type="text" data-ng-model="data.input">
+	<input type="checkbox" data-ng-model="data.check">
+	<div data-a-bc-d></div>
+</body>
+</html>

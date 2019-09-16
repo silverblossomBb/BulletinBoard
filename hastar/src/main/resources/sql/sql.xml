@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sql">
+	<!-- DB Test -->
+	<select id="test" resultType="Integer">
+		select 1 as cnt
+	</select>
+	
+	<!-- loginInfo Table -->
+	<insert id="insertLogin" parameterType="io.github.hastar.VO.LoginVO">
+		insert into loginInfo (id, `name`, image) values (#{id}, #{name}, #{image})
+	</insert>
+	
+	<!-- upload Table -->
+	<insert id="insertUpload" parameterType="io.github.hastar.VO.UploadVO">
+		insert into upload (noticeNo, id, `name`, originName, `uuid`) values (#{noticeNo}, #{id}, #{name}, #{originName}, #{uuid})
+	</insert>
+	
+	<select id="selectUpload" parameterType="io.github.hastar.VO.UploadVO" resultType="hashmap">
+		select `uuid`, originName from upload where no = #{no}
+	</select>
+	
+	<!-- download Table -->
+	<insert id="insertDownload" parameterType="io.github.hastar.VO.DownloadVO">
+		insert into download (id, `uuid`) values (#{id}, #{uuid})
+	</insert>
+</mapper>

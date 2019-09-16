@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.hastar.mapper.BoardMapper">
+	<!-- DB Test -->
+	<select id="getAllData" resultType="PostVO">
+		SELECT *
+		  FROM `notice`
+		 WHERE delYn = 'N'
+	</select>
+	
+	<select id="getOneData" resultType="PostVO">
+		SELECT *
+		  FROM `notice`
+		 WHERE no = #{no} and delYn = 'N'
+	</select>
+
+	<insert id="setNewData">
+		INSERT INTO `notice`(name,title,content)
+		 VALUES(#{name},#{title},#{content})
+	</insert>
+	
+	<select id="selectNewData" resultType="PostVO">
+		SELECT *
+ 		  FROM `notice`
+         WHERE delYn = 'N'
+         ORDER BY no DESC
+         LIMIT 1;
+	</select>
+	
+	<select id="getFileData" resultType="hashmap">
+		SELECT *
+		  FROM `upload`
+		 WHERE noticeNo=#{no}
+	</select>
+	
+	<update id="updateData" parameterType="PostVO">
+		UPDATE `notice`
+		   SET name=#{name},
+		   	   title=#{title},
+		   	   content=#{content}
+		 WHERE no=#{no}
+	</update>
+	<update id="deleteData" parameterType="hashmap">
+		UPDATE `notice`
+		   SET delYn='Y'
+		 WHERE no=#{key} and name=#{name}
+	</update>
+</mapper>

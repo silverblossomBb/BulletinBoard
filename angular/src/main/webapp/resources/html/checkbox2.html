@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example - example-checkbox-input-directive-production</title>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.1/angular.min.js"></script>
+
+</head>
+<body ng-app="checkboxExample">
+  <script>
+  angular.module('checkboxExample', [])
+    .controller('ExampleController', ['$scope', function($scope) {
+      
+      $scope.genders=['male','female','other'];
+      $scope.selection=[];
+
+      $scope.toggleSelection = function toggleSelection(gender) {
+        var idx = $scope.selection.indexOf(gender);
+        if (idx > -1) {
+          // is currently selected
+          $scope.selection.splice(idx, 1);
+         }
+         else {
+           // is newly selected
+           $scope.selection.push(gender);
+         }
+      };
+
+    }]);
+</script>
+  <form name="myForm" ng-controller="ExampleController">
+    <div ng-repeat="gender in genders">
+      <div class="action-checkbox">
+       <input id="{{gender}}" type="checkbox" value="{{gender}}" ng-checked="selection.indexOf(gender) > -1" ng-click="toggleSelection(gender)" />
+       <label for="{{gender}}"></label>
+       {{gender}}
+      </div>
+    </div>
+    
+    <span>Selected Items:<span>
+    <div ng-repeat="gender in selection" class="selected-item">
+      {{gender}}
+    </div>
+  </form>
+</body>
+</html>

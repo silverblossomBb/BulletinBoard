@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.project.summer.mapper.DBMapper">
+	<!-- Table: login -->
+	<insert id="insertLogin">
+		insert into login (id, `name`, imageUrl) values (#{id}, #{name}, #{imageUrl})
+	</insert>
+	
+	<select id="selectLogin" resultType="hashmap">
+		select `no`, id, `name`, imageUrl, date_format(timeLog, '%Y:%m:%d:%H:%i:%s') as timeLog from login
+	</select>
+	
+	
+	<!-- Table: notice -->
+	<insert id="insertNotice">
+		insert into notice (id, `name`, title, content) values (#{id}, #{name}, #{title}, #{content})
+	</insert>
+	
+	<select id="selectNotice" resultType="hashmap">
+		select * from notice where delYn = 'N'
+		<if test="no != 0">
+			and `no` = ${no}
+		</if>
+		<if test="title != null">
+			and title = #{title}
+		</if>
+		<if test="name != null">
+			and `name` = #{name}
+		</if>
+	</select>
+	
+	<update id="updateNotice">
+		update notice set title = #{title}, content = #{content} where `no` = #{no}	
+	</update>
+	
+	<update id="deleteNotice">
+		update notice set delYn = 'Y' where `no` = #{no}
+	</update>
+</mapper>
